@@ -1,13 +1,13 @@
-# 📌 Event Management System  
+#  Event Management System  
 
-## 📖 Project Title & Description  
+##  Project Title & Description  
 **Event Management System** is a **Java console-based application** designed to manage **events, participants, and registrations**.  
 The system allows **admins** to create and manage events, while **users** can register, view, and participate in events.  
 It demonstrates **Object-Oriented Programming (OOP) principles** and integrates with a **SQL database** for data storage.  
 
 ---
 
-## 🎯 Problem Statement  
+##  Problem Statement  
 Managing college, corporate, or personal events manually is time-consuming and error-prone.  
 This system **automates event scheduling, registration, and participant tracking**, ensuring smooth management.  
 
@@ -53,7 +53,7 @@ This system **automates event scheduling, registration, and participant tracking
 
 ---
 
-## 🏗️ UML Class Diagram  
+## UML Class Diagram  
 
 ```mermaid
 classDiagram
@@ -89,4 +89,4 @@ classDiagram
     }
     
     User <|-- Admin
-    User <|-- Participant
+    User <|-- Participant
