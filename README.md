@@ -1,89 +1,92 @@
-#  Event Management System
+# 📌 Event Management System  
 
-##  Project Title & Description
-**Event Management System**  
-A Java console-based application designed to manage events, participants, and registrations.  
-The system allows admins to create and manage events, while users can register, view, and participate in events.  
-It demonstrates object-oriented programming (OOP) principles and integrates with a SQL database for data storage.
-
----
-
-##  Problem Statement & Target Users
-### Problem Statement
-Managing events manually is time-consuming and prone to errors. Traditional methods make it difficult to track registrations, schedules, and participants effectively.  
-
-### Target Users
-- **Event Organizers/Admins** – to create, update, and manage events.  
-- **Participants/Attendees** – to browse events and register easily.  
-- **Institutions/Organizations** – to handle multiple events efficiently.  
+## 📖 Project Title & Description  
+**Event Management System** is a **Java console-based application** designed to manage **events, participants, and registrations**.  
+The system allows **admins** to create and manage events, while **users** can register, view, and participate in events.  
+It demonstrates **Object-Oriented Programming (OOP) principles** and integrates with a **SQL database** for data storage.  
 
 ---
 
-## Class Diagram (UML-style)
-```
-+-----------------+          +-----------------+
-|     Event       |<>------->|   Participant   |
-+-----------------+          +-----------------+
-| - eventId       |          | - participantId |
-| - name          |          | - name          |
-| - date          |          | - email         |
-| - location      |          | - phone         |
-+-----------------+          +-----------------+
-| + addEvent()    |          | + register()    |
-| + updateEvent() |          | + updateInfo()  |
-| + deleteEvent() |          |                 |
-+-----------------+          +-----------------+
-
-           ^
-           |
-           |
-+-----------------+
-|   Organizer     |
-+-----------------+
-| - organizerId   |
-| - name          |
-| - contactInfo   |
-+-----------------+
-| + createEvent() |
-| + manageEvent() |
-+-----------------+
-```
-
-
-##  OOP Concepts Used
-- **Encapsulation**:  
-  - Event, Participant, and Registration classes keep their data private and expose only necessary methods.  
-
-- **Inheritance**:  
-  - Future enhancements (e.g., Admin extending Participant with extra privileges).  
-
-- **Polymorphism**:  
-  - Method overloading (e.g., `createEvent()` with different parameters).  
-  - Method overriding (e.g., `toString()` in different classes).  
-
-- **Abstraction**:  
-  - Interfaces could be used for `DatabaseOperations` to hide database details.  
+## 🎯 Problem Statement  
+Managing college, corporate, or personal events manually is time-consuming and error-prone.  
+This system **automates event scheduling, registration, and participant tracking**, ensuring smooth management.  
 
 ---
 
-## 🛠 Tech Stack
-
-| Layer        | Technology Used |
-|--------------|-----------------|
-| **Frontend** | Java (Console-based UI) |
-| **Backend**  | Java (Core OOP Concepts), JDBC (Java Database Connectivity) |
-| **Database** | MySQL |
+## 👥 Target Users  
+- **Admins** → Create, edit, and manage events.  
+- **Users/Participants** → View events, register, and participate.  
 
 ---
 
-##  Features
-- Role-based access for Admins and Participants  
-- Search and filter events by name, date, or location  
-- Event capacity limit to prevent overbooking  
-- Auto-generated registration ID for participants  
-- Update or cancel registrations easily  
-- Persistent data storage using MySQL  
-- Scalable design for adding future features  
+## ⚡ Features  
+- ✔️ Admin can create and delete events  
+- ✔️ User can register for events  
+- ✔️ Display list of participants for each event  
+- ✔️ Secure login system for both admin and user  
+- ✔️ Database connectivity for storing event and user details  
+- ✔️ Console-based menu-driven interface  
 
 ---
 
+## 🧑‍💻 OOP Concepts Used  
+
+### 1. Classes & Objects  
+- Classes: `Event`, `Participant`, `Registration`, `Database`, `MainApp`  
+- Objects created for events and participants to manage their details.  
+
+### 2. Encapsulation  
+- Attributes like `eventName`, `date`, `participantName` are declared **private**.  
+- Access provided using **getters & setters**.  
+
+### 3. Inheritance  
+- `User` (base class).  
+- `Admin` and `Participant` (derived classes).  
+
+### 4. Polymorphism  
+- **Method Overloading** → Different ways of registering (by ID, by Name).  
+- **Method Overriding** → `displayDetails()` customized for `Admin` and `Participant`.  
+
+### 5. Abstraction  
+- `Database` **interface** → `connect()`, `insert()`, `fetch()`.  
+- Implemented by `SQLDatabase` class.  
+
+---
+
+## 🏗️ UML Class Diagram  
+
+```mermaid
+classDiagram
+    class User {
+      -String username
+      -String password
+      +login()
+      +logout()
+    }
+    
+    class Admin {
+      +createEvent()
+      +deleteEvent()
+    }
+    
+    class Participant {
+      +registerEvent()
+      +viewEvents()
+    }
+    
+    class Event {
+      -String eventName
+      -String date
+      -String location
+      +displayDetails()
+    }
+    
+    class Database {
+      <<interface>>
+      +connect()
+      +insert()
+      +fetch()
+    }
+    
+    User <|-- Admin
+    User <|-- Participant
