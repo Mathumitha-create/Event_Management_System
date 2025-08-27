@@ -66,18 +66,24 @@ Managing events manually is time-consuming and prone to errors. Traditional meth
 
 ---
 
-##  Tech Stack
-- **Java (Console-based Application)**  
-- **MySQL Database** (via JDBC)  
+## 🛠 Tech Stack
+
+| Layer        | Technology Used |
+|--------------|-----------------|
+| **Frontend** | Java (Console-based UI) |
+| **Backend**  | Java (Core OOP Concepts), JDBC (Java Database Connectivity) |
+| **Database** | MySQL |
 
 ---
 
 ##  Features
-- Admins can:  
-  - Create, update, and delete events.  
-- Participants can:  
-  - View events, register, and cancel registration.  
-- Data stored persistently in MySQL.  
+- Role-based access for Admins and Participants  
+- Search and filter events by name, date, or location  
+- Event capacity limit to prevent overbooking  
+- Auto-generated registration ID for participants  
+- Update or cancel registrations easily  
+- Persistent data storage using MySQL  
+- Scalable design for adding future features  
 
 ---
 
