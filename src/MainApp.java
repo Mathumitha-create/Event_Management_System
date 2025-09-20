@@ -11,7 +11,7 @@ public class MainApp {
             System.out.println("1. Admin - Add Event");
             System.out.println("2. View Events");
             System.out.println("3. Register Participant");
-            System.out.println("4. Register for Event");
+            // System.out.println("4. Register for Event");
             System.out.println("5. View Participants in Event");
             System.out.println("6. Exit");
             System.out.print("Enter choice: ");
