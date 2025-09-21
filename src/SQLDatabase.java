@@ -1,88 +1,115 @@
 import java.sql.*;
 
+// Implements a database handler for managing events and participants using MySQL
 public class SQLDatabase implements Database {
-    private Connection conn;
 
+    // Stores the live connection to the database
+    private Connection connection;
+
+    // Opens a connection to the MySQL server
     @Override
     public void connect() {
         try {
-            String url = "jdbc:mysql://localhost:3306/eventdb";
-            String user = "root"; // change as per your system
-            String pass = "root123"; // change as per your system
-            conn = DriverManager.getConnection(url, user, pass);
-            System.out.println(" Connected to MySQL Database.");
-        } catch (Exception e) {
-            System.out.println(" Database Connection Failed!");
+            // Replace credentials with your own database info
+            String dbURL = "jdbc:mysql://localhost:3306/eventdb";
+            String username = "root";
+            String password = "root123";
+
+            connection = DriverManager.getConnection(dbURL, username, password);
+            System.out.println("Successfully connected to the database.");
+        } catch (SQLException e) {
+            System.out.println("Failed to connect to the database.");
             e.printStackTrace();
         }
     }
 
+    // Adds a new event to the events table
     @Override
-    public void insertEvent(String name, String date) {
+    public void insertEvent(String eventName, String eventDate) {
         try {
-            String query = "INSERT INTO events(event_name, event_date) VALUES(?, ?)";
-            PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, name);
-            ps.setString(2, date);
-            ps.executeUpdate();
-            System.out.println(" Event Added Successfully!");
-        } catch (Exception e) { e.printStackTrace(); }
+            String sql = "INSERT INTO events(event_name, event_date) VALUES(?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, eventName);
+            stmt.setString(2, eventDate);
+            stmt.executeUpdate();
+            System.out.println("Event has been successfully added!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+    // Lists all events currently in the database
     @Override
     public void viewEvents() {
         try {
-            String query = "SELECT * FROM events";
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            System.out.println("\nAvailable Events:");
-            while (rs.next()) {
-                System.out.println(rs.getInt("event_id") + ". " +
-                                   rs.getString("event_name") +
-                                   " (Date: " + rs.getString("event_date") + ")");
+            String sql = "SELECT * FROM events";
+            Statement stmt = connection.createStatement();
+            ResultSet results = stmt.executeQuery(sql);
+
+            System.out.println("\nList of Events:");
+            while (results.next()) {
+                System.out.println(
+                    results.getInt("event_id") + ". " +
+                    results.getString("event_name") +
+                    " on " + results.getString("event_date")
+                );
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+    // Inserts a new participant into the participants table
     @Override
-    public void insertParticipant(String name, String email) {
+    public void insertParticipant(String participantName, String participantEmail) {
         try {
-            String query = "INSERT INTO participants(name, email) VALUES(?, ?)";
-            PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, name);
-            ps.setString(2, email);
-            ps.executeUpdate();
-            System.out.println(" Participant Registered!");
-        } catch (Exception e) { e.printStackTrace(); }
+            String sql = "INSERT INTO participants(name, email) VALUES(?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, participantName);
+            stmt.setString(2, participantEmail);
+            stmt.executeUpdate();
+            System.out.println("Participant has been registered!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+    // Records a participant's registration for a specific event
     @Override
     public void registerForEvent(int eventId, int participantId) {
         try {
-            String query = "INSERT INTO registrations(event_id, participant_id) VALUES(?, ?)";
-            PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, eventId);
-            ps.setInt(2, participantId);
-            ps.executeUpdate();
-            System.out.println(" Registered for Event!");
-        } catch (Exception e) { e.printStackTrace(); }
+            String sql = "INSERT INTO registrations(event_id, participant_id) VALUES(?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, eventId);
+            stmt.setInt(2, participantId);
+            stmt.executeUpdate();
+            System.out.println("Registration completed successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+    // Displays all participants for a particular event
     @Override
     public void viewParticipants(int eventId) {
         try {
-            String query = "SELECT p.participant_id, p.name, p.email FROM participants p " +
-                           "JOIN registrations r ON p.participant_id = r.participant_id " +
-                           "WHERE r.event_id = ?";
-            PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, eventId);
-            ResultSet rs = ps.executeQuery();
-            System.out.println("\n👥 Participants in Event " + eventId + ":");
-            while (rs.next()) {
-                System.out.println(rs.getInt("participant_id") + ". " +
-                                   rs.getString("name") +
-                                   " (" + rs.getString("email") + ")");
+            String sql = "SELECT p.participant_id, p.name, p.email FROM participants p " +
+                         "INNER JOIN registrations r ON p.participant_id = r.participant_id " +
+                         "WHERE r.event_id = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, eventId);
+            ResultSet results = stmt.executeQuery();
+
+            System.out.println("\nParticipants for Event ID " + eventId + ":");
+            while (results.next()) {
+                System.out.println(
+                    results.getInt("participant_id") + ". " +
+                    results.getString("name") +
+                    " (" + results.getString("email") + ")"
+                );
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
